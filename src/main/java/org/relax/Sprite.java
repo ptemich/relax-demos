@@ -23,7 +23,7 @@ public class Sprite {
 
     public void update(double elapsedTime) {
         double deltaX =  speed;
-        System.out.println(elapsedTime + " " + deltaX + " " + x);
+        //System.out.println(elapsedTime + " " + deltaX + " " + x);
         x += deltaX;
         if (x < 0) {
             x = 0;
