@@ -18,6 +18,7 @@ public class Game {
         Graphics2D g2d = (Graphics2D) g;
         player1.render(g2d);
         player2.render(g2d);
+        Toolkit.getDefaultToolkit().sync();
     }
 
     public void update(long elapsedTime) {
