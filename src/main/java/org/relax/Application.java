@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 public class Application {
 
     // how many frames should be drawn in a second
-    final int FRAMES_PER_SECOND = 30;
+    final int FRAMES_PER_SECOND = 60;
     // calculate how many nano seconds each frame should take for our target frames per second.
     final long TIME_BETWEEN_UPDATES = 1_000_000_000 / FRAMES_PER_SECOND;
     // if you're worried about visual hitches more than perfect timing, set this to 1. else 5 should be okay
@@ -100,12 +100,12 @@ public class Application {
                 // Yield until it has been at least the target time between renders. This saves the CPU from hogging.
                 //while (now - lastRenderTime < TIME_BETWEEN_UPDATES && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
                    //Thread.yield();
-//                    try {
-//                        Thread.sleep(1);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                        //Thread.currentThread().interrupt();
-//                    }
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                        //Thread.currentThread().interrupt();
+                    }
                     //now = System.nanoTime();
                 //}
             }

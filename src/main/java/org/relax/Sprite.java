@@ -5,7 +5,7 @@ import java.awt.*;
 public class Sprite {
 
     private double x, y;
-    private double speed = 500;
+    private double speed = 4000;
     //private final BufferedImage image;
 
     public boolean LEFT, RIGHT, UP, DOWN;
@@ -16,8 +16,9 @@ public class Sprite {
     }
 
     public void render(Graphics2D g2d) {
-        System.out.println("render " + x);
+        //System.out.println("render " + x);
         //g2d.drawImage(this.image, this.x, this.y, null);
+        g2d.setColor(Color.WHITE);
         g2d.fillRect((int) x / 1000 ,(int) y / 1000, 100, 100);
     }
 
@@ -28,8 +29,8 @@ public class Sprite {
         if (x < 0) {
             x = 0;
             speed *= -1;
-        } else if (x > 400 * 1000) {
-            x = 400 * 1000;
+        } else if (x > 500 * 1000) {
+            x = 500 * 1000;
             speed *= -1;
         }
         //tick += elapsedTime/1000;

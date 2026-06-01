@@ -11,7 +11,7 @@ public class Game {
 
     public Game() {
         player1 = new Sprite(50, 50);
-        player2 = new Sprite(50, 250);
+        player2 = new Sprite(450, 250);
     }
 
     public void render(Graphics g) {
