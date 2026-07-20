@@ -1,45 +1,50 @@
 package org.relax;
 
+import org.relax.entities.Enemy;
+import org.relax.entities.Player;
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 
     private boolean isRunning = false;
 
-    private Sprite player1;
-    private Sprite player2;
+    private Player player;
+
+    private List<Sprite> sprites = new ArrayList<>();
 
     public Game() {
-        player1 = new Sprite(50, 50);
-        player2 = new Sprite(450, 250);
+        sprites.add(new Enemy(50, 50));
+        player = new Player(450, 250);
+        sprites.add(player);
     }
 
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        player1.render(g2d);
-        player2.render(g2d);
+        sprites.forEach(sprite -> sprite.render(g2d));
         Toolkit.getDefaultToolkit().sync();
     }
 
     public void update(long elapsedTime) {
-        player1.update(elapsedTime);
-        player2.update(elapsedTime);
+        sprites.forEach(sprite -> sprite.update(elapsedTime));
     }
 
     public void rightKeyDown() {
-        player1.RIGHT = true;
+        player.RIGHT = true;
     }
 
     public void rightKeyUp() {
-        player1.RIGHT = false;
+        player.RIGHT = false;
     }
 
     public void leftKeyDown() {
-        player1.LEFT = true;
+        player.LEFT = true;
     }
 
     public void leftKeyUp() {
-        player1.LEFT = false;
+        player.LEFT = false;
     }
 
     public boolean isRunning() {

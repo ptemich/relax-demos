@@ -2,52 +2,25 @@ package org.relax;
 
 import java.awt.*;
 
-public class Sprite {
+public abstract class Sprite {
 
-    private double x, y;
-    private double speed = 4000;
-    //private final BufferedImage image;
+    protected static final int SIM_TO_RENDER_MULTIPLAYER = 1000;
 
-    public boolean LEFT, RIGHT, UP, DOWN;
+    protected double x, y;
 
-    public Sprite(int x, int y/*BufferedImage image*/) {
-        this.x = x * 1000;
-        this.y = y * 1000;
+    public Sprite(int x, int y) {
+        this.x = x * SIM_TO_RENDER_MULTIPLAYER;
+        this.y = y * SIM_TO_RENDER_MULTIPLAYER;
     }
 
-    public void render(Graphics2D g2d) {
-        //System.out.println("render " + x);
-        //g2d.drawImage(this.image, this.x, this.y, null);
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect((int) x / 1000 ,(int) y / 1000, 100, 100);
+    protected int getRenderX() {
+        return (int) x / SIM_TO_RENDER_MULTIPLAYER;
     }
 
-    public void update(double elapsedTime) {
-        double deltaX =  speed;
-        //System.out.println(elapsedTime + " " + deltaX + " " + x);
-        x += deltaX;
-        if (x < 0) {
-            x = 0;
-            speed *= -1;
-        } else if (x > 500 * 1000) {
-            x = 500 * 1000;
-            speed *= -1;
-        }
-        //tick += elapsedTime/1000;
-        //double sin = Math.sin(tick);
-        //x = 200 + sin * 200;
-        //System.out.println(tick + " " + sin + " " + x + " " + y);
-//        if (LEFT) {
-//            this.x -= this.speed;
-//        }
-//        if (RIGHT) {
-//            this.x += this.speed;
-//        }
-//        if (UP) {
-//            this.y -= this.speed;
-//        }
-//        if (DOWN) {
-//            this.y += this.speed;
-//        }
+    protected int getRenderY() {
+        return (int) y / SIM_TO_RENDER_MULTIPLAYER;
     }
+
+    public abstract void render(Graphics2D g2d);
+    public abstract void update(double elapsedTime);
 }

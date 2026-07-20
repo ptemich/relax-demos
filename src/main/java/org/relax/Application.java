@@ -33,7 +33,7 @@ public class Application {
         game = new Game();
         frame = new Frame();
         panel = new Panel(game);
-        keyboard = new Keyboard(game, panel);
+        keyboard = new Keyboard(game, frame);
 
         this.setupGameLoop();
 
