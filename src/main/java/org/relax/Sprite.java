@@ -8,9 +8,9 @@ public abstract class Sprite {
 
     protected double x, y;
 
-    public Sprite(int x, int y) {
-        this.x = x * SIM_TO_RENDER_SCALE;
-        this.y = y * SIM_TO_RENDER_SCALE;
+    public Sprite(int x_rdr, int y_rdr) {
+        this.x = x_rdr * SIM_TO_RENDER_SCALE;
+        this.y = y_rdr * SIM_TO_RENDER_SCALE;
     }
 
     protected int getRenderX() {
@@ -31,4 +31,6 @@ public abstract class Sprite {
 
     public abstract void render(Graphics2D g2d);
     public abstract void update(double elapsedTime_ns);
+
+
 }

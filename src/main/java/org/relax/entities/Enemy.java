@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class Enemy extends Sprite {
 
-    public Enemy(int x, int y) {
-        super(x, y);
+    public Enemy(int x_rdr, int y_rdr) {
+        super(x_rdr, y_rdr);
     }
 
     private double speed = 4000;

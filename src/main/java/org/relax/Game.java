@@ -17,7 +17,7 @@ public class Game {
 
     public Game() {
         sprites.add(new Enemy(50, 50));
-        player = new Player(450, 250, 100, 600);
+        player = new Player(450, 250, 60, 600);
         sprites.add(player);
     }
 
@@ -74,5 +74,9 @@ public class Game {
 
     public void escKeyUp() {
         isRunning = false;
+    }
+
+    public void mouseClicked(int x, int y) {
+        player.setTarget(x, y);
     }
 }

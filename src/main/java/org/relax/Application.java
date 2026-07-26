@@ -15,6 +15,7 @@ public class Application {
     private Panel panel;
     private Game game;
     private Keyboard keyboard;
+    private Mouse mouse;
     private Thread gameLoop;
 
     public Application() {
@@ -34,6 +35,7 @@ public class Application {
         frame = new Frame();
         panel = new Panel(game);
         keyboard = new Keyboard(game, frame);
+        mouse = new Mouse(game, frame);
 
         this.setupGameLoop();
 
