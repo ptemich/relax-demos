@@ -59,9 +59,8 @@ public class Application {
             // we will need the last update time.
             long lastUpdateTime = System.nanoTime();
 
-
             // store the time we started this will be used for updating map and charcter animations
-            //long currTime = System.currentTimeMillis();
+            long currTime = System.currentTimeMillis();
 
             long now;
             long elapsedTime;
@@ -72,7 +71,7 @@ public class Application {
                 now = System.nanoTime();
                 elapsedTime = now - prevLoopTime;
                 prevLoopTime = now;
-                // currTime += elapsedTime;
+                currTime += elapsedTime;
                 lastRendered += elapsedTime;
 
                 if (lastRendered > TIME_BETWEEN_UPDATES) {
@@ -81,33 +80,30 @@ public class Application {
                     lastRendered = 0;
                 }
 
-                //int updateCount = 0;
+                int updateCount = 0;
                 // do as many game updates as we need to, potentially playing catchup.
-                //while (now - lastUpdateTime >= TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BETWEEN_RENDER) {
-                //    lastUpdateTime += TIME_BETWEEN_UPDATES;
-                //    updateCount++;
-                //}
+                while (now - lastUpdateTime >= TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BETWEEN_RENDER) {
+                    lastUpdateTime += TIME_BETWEEN_UPDATES;
+                    updateCount++;
+                }
 
                 // if for some reason an update takes forever, we don't want to do an insane number of catchups.
                 // if you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
-//                if (now - lastUpdateTime >= TIME_BETWEEN_UPDATES) {
-//                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
-//                }
+                if (now - lastUpdateTime >= TIME_BETWEEN_UPDATES) {
+                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+                }
 
-
-                //long lastRenderTime = now;
-
+                long lastRenderTime = now;
                 // Yield until it has been at least the target time between renders. This saves the CPU from hogging.
-                //while (now - lastRenderTime < TIME_BETWEEN_UPDATES && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
-                   //Thread.yield();
+                while (now - lastRenderTime < TIME_BETWEEN_UPDATES) {
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                         //Thread.currentThread().interrupt();
                     }
-                    //now = System.nanoTime();
-                //}
+                    now = System.nanoTime();
+                }
             }
         });
     }
