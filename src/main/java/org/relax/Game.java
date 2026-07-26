@@ -17,7 +17,7 @@ public class Game {
 
     public Game() {
         sprites.add(new Enemy(50, 50));
-        player = new Player(450, 250);
+        player = new Player(450, 250, 100, 600);
         sprites.add(player);
     }
 
@@ -31,21 +31,38 @@ public class Game {
         sprites.forEach(sprite -> sprite.update(elapsedTime));
     }
 
-    public void rightKeyDown() {
+    public void rightKeyPressed() {
         player.RIGHT = true;
     }
 
-    public void rightKeyUp() {
+    public void rightKeyReleased() {
         player.RIGHT = false;
     }
 
-    public void leftKeyDown() {
+    public void leftKeyPressed() {
         player.LEFT = true;
     }
 
-    public void leftKeyUp() {
+    public void leftKeyReleased() {
         player.LEFT = false;
     }
+
+    public void upKeyPressed() {
+        player.UP = true;
+    }
+
+    public void upKeyReleased() {
+        player.UP = false;
+    }
+
+    public void downKeyPressed() {
+        player.DOWN = true;
+    }
+
+    public void downKeyReleased() {
+        player.DOWN = false;
+    }
+
 
     public boolean isRunning() {
         return isRunning;

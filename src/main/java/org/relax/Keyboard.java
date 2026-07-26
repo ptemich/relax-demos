@@ -27,16 +27,20 @@ public class Keyboard implements KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
-            case KeyEvent.VK_LEFT -> game.leftKeyDown();
-            case KeyEvent.VK_RIGHT -> game.rightKeyDown();
+            case KeyEvent.VK_LEFT -> game.leftKeyPressed();
+            case KeyEvent.VK_RIGHT -> game.rightKeyPressed();
+            case KeyEvent.VK_UP -> game.upKeyPressed();
+            case KeyEvent.VK_DOWN -> game.downKeyPressed();
         }
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
-            case KeyEvent.VK_LEFT -> game.leftKeyUp();
-            case KeyEvent.VK_RIGHT -> game.rightKeyUp();
+            case KeyEvent.VK_LEFT -> game.leftKeyReleased();
+            case KeyEvent.VK_RIGHT -> game.rightKeyReleased();
+            case KeyEvent.VK_UP -> game.upKeyReleased();
+            case KeyEvent.VK_DOWN -> game.downKeyReleased();
 
             case KeyEvent.VK_ESCAPE -> game.escKeyUp();
         }
