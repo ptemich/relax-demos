@@ -4,6 +4,9 @@ import javax.swing.SwingUtilities;
 
 public class Application {
 
+    private int WIDTH = 600;
+    private int HEIGHT = 600;
+
     // how many frames should be drawn in a second
     final int FRAMES_PER_SECOND = 60;
     // calculate how many nano seconds each frame should take for our target frames per second.
@@ -19,7 +22,7 @@ public class Application {
     private Thread gameLoop;
 
     public Application() {
-        createAndShowUI();
+        createAndShowUI(WIDTH, HEIGHT);
     }
 
     public static void main(String[] args) {
@@ -30,8 +33,8 @@ public class Application {
      * Here we will create our swing UI as well as initialise and setup our
      * sprites, scene, and game loop and other buttons etc
      */
-    private void createAndShowUI() {
-        game = new Game();
+    private void createAndShowUI(int windowWidth, int windowHeight) {
+        game = new Game(windowWidth, windowHeight);
         frame = new Frame();
         panel = new Panel(game);
         keyboard = new Keyboard(game, frame);

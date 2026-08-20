@@ -1,31 +1,40 @@
 package org.relax.entities;
 
+import org.relax.Game;
 import org.relax.Sprite;
 
 import java.awt.*;
 
 public class Enemy extends Sprite {
 
-    public Enemy(int x_rdr, int y_rdr) {
-        super(x_rdr, y_rdr);
-    }
+    private double speed = 4;
+    private double width;
+    private double height;
 
-    private double speed = 4000;
+    public Enemy(Game game, int x, int y, int width, int height) {
+        super(game, x, y);
+        this.width = width;
+        this.height = height;
+    }
 
     @Override
     public void render(Graphics2D g2d) {
         g2d.setColor(Color.RED);
-        g2d.fillRect(getRenderX() ,getRenderY(), 100, 100);
+        g2d.fillRect((int) (x - width / 2), (int) (y - height / 2), (int) width, (int) height);
     }
 
     public void update(double elapsedTime) {
         double deltaX =  speed;
         x += deltaX;
-        if (x < 0) {
-            x = 0;
+
+        double rightBorder = x + width / 2;
+        double leftBorder = x - width / 2;
+
+        if (leftBorder < 0) {
+            x = width / 2; // left border should stick to the left side of the screen
             speed *= -1;
-        } else if (x > 500 * 1000) {
-            x = 500 * 1000;
+        } else if (rightBorder > game.windowWidth) {
+            x = game.windowWidth - width / 2; // right border should stick to the right side of the screen
             speed *= -1;
         }
     }

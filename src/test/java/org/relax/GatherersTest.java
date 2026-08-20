@@ -13,8 +13,8 @@ public class GatherersTest {
     @Test
     public void test1() {
         Stream<Integer> numbers = Stream.of(1, 2, 3, 4, 5);
-        //Stream gathered = numbers.gather(Gatherers.fold(() -> 0, Integer::sum));
-        Stream gathered = numbers.gather(Gatherers.scan(() -> 0, Integer::sum));
+        Stream gathered = numbers.gather(Gatherers.fold(() -> 0, Integer::sum));
+        //Stream gathered = numbers.gather(Gatherers.scan(() -> 0, Integer::sum));
 
         List<Integer> resultList = gathered.toList();
         assertThat(resultList).hasSize(1);

@@ -1,12 +1,18 @@
 package org.relax.entities;
 
+import org.relax.Game;
 import org.relax.Sprite;
 
 import java.awt.*;
 
 public class Player extends Sprite {
 
-    private double velocity = 400;
+    public boolean LEFT, RIGHT, UP, DOWN;
+
+    private final int CENTER_CIRCLE_RADIUS = 40;
+    private final int ROTATING_CIRCLE_RADIUS = 5;
+
+    private final double VELOCITY = 0.4;
 
     private double circleRadius;
     private double angle = 0.0, angularVelocity; // prędkość kątowa - omega
@@ -14,78 +20,80 @@ public class Player extends Sprite {
 
     private double targetX, targetY;
 
-    public boolean LEFT, RIGHT, UP, DOWN;
 
-    public Player(int x_rdr, int y_rdr, int circleRadius_rdr, double fullCircleDuration_s) {
-        super(x_rdr, y_rdr);
+    public Player(Game game, int x, int y, int circleRadius, double fullCircleDuration_s) {
+        super(game, x, y);
 
         this.targetX = x;
         this.targetY = y;
-        this.circleRadius = toSimCoordinate(circleRadius_rdr);
+        this.circleRadius = circleRadius;
         this.angularVelocity = 2 * Math.PI / fullCircleDuration_s;
     }
 
 
     @Override
     public void render(Graphics2D g2d) {
-        int Center_Circle_Radius = 10;
         g2d.setColor(Color.WHITE);
-        renderCircle(g2d, x,y, Center_Circle_Radius);
-
-        int ROTATING_CIRCLE_RADIUS = 5;
-        renderCircle(g2d, circleX, circleY, ROTATING_CIRCLE_RADIUS);
-
         g2d.drawString(targetX + " " + targetY, 20, 20);
+
+        renderCircle(g2d, x, y, CENTER_CIRCLE_RADIUS);
+        renderCircle(g2d, circleX, circleY, ROTATING_CIRCLE_RADIUS);
     }
 
-    private void renderCircle(Graphics2D g2d, double x, double y, int radius) {
-        g2d.fillOval(toRenderCoordinate(x) - radius, toRenderCoordinate(y) - radius, radius, radius);
+    private void renderCircle(Graphics2D g2d, double x, double y, double radius) {
+        g2d.fillOval((int) (x - radius), (int) (y - radius), (int) radius, (int) radius);
     }
 
     public void update(double elapsedTime_ns) {
-        double deltaX = velocity;
-        if (LEFT) {
-            x -= deltaX;
-        }
-        if (RIGHT) {
-            x += deltaX;
-        }
-        if (UP) {
-            this.y -= velocity;
-        }
-        if (DOWN) {
-            this.y += velocity;
-        }
+        double elapsedTime_ms = elapsedTime_ns / 1_000_000;
 
-        int TARGET_POSITION_THRESHOLD = 10;
+        double deltaX = VELOCITY; // TODO use if we need to calculate distance as function of passed time
+        double deltaY = VELOCITY; // TODO use if we need to calculate distance as function of passed time
+
+        double TARGET_POSITION_THRESHOLD = 0.01;
 
         double targetDistanceX = targetX - x;
         if (Math.abs(targetDistanceX) > TARGET_POSITION_THRESHOLD) {
             if (targetDistanceX > 0) {
-                x += velocity;
+                x += deltaX;
             } else {
-                x -= velocity;
+                x -= deltaX;
             }
+        } else {
+            if (LEFT) {
+                x -= deltaX;
+            } else if (RIGHT) {
+                x += deltaX;
+            }
+            targetX = x; // this is required to "auto adjust" after manual move
         }
 
         double targetDistanceY = targetY - y;
         if (Math.abs(targetDistanceY) > TARGET_POSITION_THRESHOLD) {
             if (targetDistanceY > 0) {
-                y += velocity;
+                y += deltaY;
             } else {
-                y -= velocity;
+                y -= deltaY;
             }
+        } else {
+            if (UP) {
+                y -= deltaY;
+            } else if (DOWN) {
+                y += deltaY;
+            }
+            targetY = y;
         }
 
-        double elapsedTime_ms = elapsedTime_ns / 1_000_000;
+
+         // calculate satelite location
         angle = angle + angularVelocity * elapsedTime_ms; /** initial angel - + phi0**/;
         circleX = x + circleRadius * Math.cos(angle);
         circleY = y + circleRadius * Math.sin(angle);
     }
 
-    public void setTarget(int x_rdr, int y_rdr) {
-        targetX = toSimCoordinate(x_rdr);
-        targetY = toSimCoordinate(y_rdr);
+    public void setTarget(int x, int y) {
+        targetX = x;
+        targetY = y;
     }
 
 }

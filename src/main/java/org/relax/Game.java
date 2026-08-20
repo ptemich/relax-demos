@@ -12,12 +12,17 @@ public class Game {
     private boolean isRunning = false;
 
     private Player player;
-
     private List<Sprite> sprites = new ArrayList<>();
 
-    public Game() {
-        sprites.add(new Enemy(50, 50));
-        player = new Player(450, 250, 60, 600);
+    public final int windowWidth;
+    public final int windowHeight;
+
+    public Game(int windowWidth, int windowHeight) {
+        this.windowWidth = windowWidth;
+        this.windowHeight = windowHeight;
+
+        sprites.add(new Enemy(this, 50, 50, 100, 70));
+        player = new Player(this, 50, 50, 60, 600);
         sprites.add(player);
     }
 
@@ -78,5 +83,13 @@ public class Game {
 
     public void mouseClicked(int x, int y) {
         player.setTarget(x, y);
+    }
+
+    public int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public int getWindowHeight() {
+        return windowHeight;
     }
 }
