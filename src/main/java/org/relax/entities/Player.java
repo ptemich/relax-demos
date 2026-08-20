@@ -87,6 +87,16 @@ public class Player extends Sprite {
          // calculate satellite location
         angle = angle + satelliteAngularVelocity * elapsedTime_ms; /** initial angel - + phi0**/;
 
+        /**
+         * function getPosition(cx, cy, r, T, t, phi0 = 0) {
+         *   const omega = (2 * Math.PI) / T; // prędkość kątowa
+         *   const angle = omega * t + phi0;
+         *   const x = cx + r * Math.cos(angle);
+         *   const y = cy + r * Math.sin(angle);
+         *   return { x, y };
+         * }
+         */
+
         // rotates on distance of two MASTER_CIRCLE_RADIUS distance
         satelliteX = (x) + 2 * MASTER_CIRCLE_RADIUS * Math.cos(angle);
         satelliteY = (y) + 2 * MASTER_CIRCLE_RADIUS * Math.sin(angle);
