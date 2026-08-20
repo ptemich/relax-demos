@@ -38,7 +38,7 @@ public class Application {
         frame = new Frame();
         panel = new Panel(game);
         keyboard = new Keyboard(game, frame);
-        mouse = new Mouse(game, frame);
+        mouse = new Mouse(game, panel); // attach mouse to the panel not to frame - no need to recalculate "Y" coordinate because of the frame title
 
         this.setupGameLoop();
 

@@ -9,10 +9,10 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
     private Game game;
 
-    public Mouse(Game game, Frame frame) {
+    public Mouse(Game game, Panel panel) {
         this.game = game;
 
-        frame.addMouseListener(this);
+        panel.addMouseListener(this);
     }
 
     @Override

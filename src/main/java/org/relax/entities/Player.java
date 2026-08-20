@@ -9,39 +9,39 @@ public class Player extends Sprite {
 
     public boolean LEFT, RIGHT, UP, DOWN;
 
-    private final int CENTER_CIRCLE_RADIUS = 40;
+    private final int MASTER_CIRCLE_RADIUS = 20;
     private final int ROTATING_CIRCLE_RADIUS = 5;
 
     private final double VELOCITY = 0.4;
 
-    private double circleRadius;
-    private double angle = 0.0, angularVelocity; // prędkość kątowa - omega
-    private double circleX, circleY;
+    private double satelliteCircleRadius;
+    private double angle = 0.0;
+    private double satelliteAngularVelocity; // prędkość kątowa - omega
+    private double satelliteX, satelliteY;
 
     private double targetX, targetY;
 
 
-    public Player(Game game, int x, int y, int circleRadius, double fullCircleDuration_s) {
+    public Player(Game game, int x, int y, int satelliteCircleRadius, double fullCircleDuration_s) {
         super(game, x, y);
 
         this.targetX = x;
         this.targetY = y;
-        this.circleRadius = circleRadius;
-        this.angularVelocity = 2 * Math.PI / fullCircleDuration_s;
+        this.satelliteCircleRadius = satelliteCircleRadius;
+        this.satelliteAngularVelocity = 2 * Math.PI / fullCircleDuration_s;
     }
 
 
     @Override
     public void render(Graphics2D g2d) {
         g2d.setColor(Color.WHITE);
-        g2d.drawString(targetX + " " + targetY, 20, 20);
+        g2d.drawString(targetX + " || " + targetY, 20, 20);
 
-        renderCircle(g2d, x, y, CENTER_CIRCLE_RADIUS);
-        renderCircle(g2d, circleX, circleY, ROTATING_CIRCLE_RADIUS);
-    }
+        // draw "master" circle
+        g2d.fillOval((int) (x - MASTER_CIRCLE_RADIUS), (int) (y - MASTER_CIRCLE_RADIUS), (int) 2 * MASTER_CIRCLE_RADIUS, (int) 2 * MASTER_CIRCLE_RADIUS);
 
-    private void renderCircle(Graphics2D g2d, double x, double y, double radius) {
-        g2d.fillOval((int) (x - radius), (int) (y - radius), (int) radius, (int) radius);
+        // draw "satellite"
+        g2d.fillOval((int) (satelliteX - ROTATING_CIRCLE_RADIUS), (int) (satelliteY - ROTATING_CIRCLE_RADIUS), (int) 2 * ROTATING_CIRCLE_RADIUS, (int) 2 * ROTATING_CIRCLE_RADIUS);
     }
 
     public void update(double elapsedTime_ns) {
@@ -50,7 +50,7 @@ public class Player extends Sprite {
         double deltaX = VELOCITY; // TODO use if we need to calculate distance as function of passed time
         double deltaY = VELOCITY; // TODO use if we need to calculate distance as function of passed time
 
-        double TARGET_POSITION_THRESHOLD = 0.01;
+        double TARGET_POSITION_THRESHOLD = VELOCITY; // this prevents from jumping back and forth
 
         double targetDistanceX = targetX - x;
         if (Math.abs(targetDistanceX) > TARGET_POSITION_THRESHOLD) {
@@ -84,11 +84,12 @@ public class Player extends Sprite {
             targetY = y;
         }
 
+         // calculate satellite location
+        angle = angle + satelliteAngularVelocity * elapsedTime_ms; /** initial angel - + phi0**/;
 
-         // calculate satelite location
-        angle = angle + angularVelocity * elapsedTime_ms; /** initial angel - + phi0**/;
-        circleX = x + circleRadius * Math.cos(angle);
-        circleY = y + circleRadius * Math.sin(angle);
+        // rotates on distance of two MASTER_CIRCLE_RADIUS distance
+        satelliteX = (x) + 2 * MASTER_CIRCLE_RADIUS * Math.cos(angle);
+        satelliteY = (y) + 2 * MASTER_CIRCLE_RADIUS * Math.sin(angle);
     }
 
     public void setTarget(int x, int y) {

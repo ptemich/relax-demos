@@ -22,7 +22,7 @@ public class Game {
         this.windowHeight = windowHeight;
 
         sprites.add(new Enemy(this, 50, 50, 100, 70));
-        player = new Player(this, 50, 50, 60, 600);
+        player = new Player(this, 50, 50, 40, 600);
         sprites.add(player);
     }
 
