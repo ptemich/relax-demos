@@ -10,11 +10,10 @@ public class Player extends Sprite {
     public boolean LEFT, RIGHT, UP, DOWN;
 
     private final int MASTER_CIRCLE_RADIUS = 20;
-    private final int ROTATING_CIRCLE_RADIUS = 5;
+    private final int SATELLITE_CIRCLE_RADIUS = 5;
 
     private final double VELOCITY = 0.4;
 
-    private double satelliteCircleRadius;
     private double angle = 0.0;
     private double satelliteAngularVelocity; // prędkość kątowa - omega
     private double satelliteX, satelliteY;
@@ -27,7 +26,6 @@ public class Player extends Sprite {
 
         this.targetX = x;
         this.targetY = y;
-        this.satelliteCircleRadius = satelliteCircleRadius;
         this.satelliteAngularVelocity = 2 * Math.PI / fullCircleDuration_s;
     }
 
@@ -41,7 +39,8 @@ public class Player extends Sprite {
         g2d.fillOval((int) (x - MASTER_CIRCLE_RADIUS), (int) (y - MASTER_CIRCLE_RADIUS), (int) 2 * MASTER_CIRCLE_RADIUS, (int) 2 * MASTER_CIRCLE_RADIUS);
 
         // draw "satellite"
-        g2d.fillOval((int) (satelliteX - ROTATING_CIRCLE_RADIUS), (int) (satelliteY - ROTATING_CIRCLE_RADIUS), (int) 2 * ROTATING_CIRCLE_RADIUS, (int) 2 * ROTATING_CIRCLE_RADIUS);
+        g2d.setColor(Color.YELLOW);
+        g2d.fillOval((int) (satelliteX - SATELLITE_CIRCLE_RADIUS), (int) (satelliteY - SATELLITE_CIRCLE_RADIUS), (int) 2 * SATELLITE_CIRCLE_RADIUS, (int) 2 * SATELLITE_CIRCLE_RADIUS);
     }
 
     public void update(double elapsedTime_ns) {
@@ -97,9 +96,10 @@ public class Player extends Sprite {
          * }
          */
 
-        // rotates on distance of two MASTER_CIRCLE_RADIUS distance
-        satelliteX = (x) + 2 * MASTER_CIRCLE_RADIUS * Math.cos(angle);
-        satelliteY = (y) + 2 * MASTER_CIRCLE_RADIUS * Math.sin(angle);
+        // distance from the center of the player
+        double satelliteDistance = MASTER_CIRCLE_RADIUS + (2* SATELLITE_CIRCLE_RADIUS);
+        satelliteX = (x) + satelliteDistance * Math.cos(angle);
+        satelliteY = (y) + satelliteDistance * Math.sin(angle);
     }
 
     public void setTarget(int x, int y) {
